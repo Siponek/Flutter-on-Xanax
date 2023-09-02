@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "113217835546",
+    "project_id": "meta-xanax",
+    "storage_bucket": "meta-xanax.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:113217835546:android:8cde370ef90c06772137a3",
+        "android_client_info": {
+          "package_name": "com.example.todoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "113217835546-0v17iuc8mp6sau3b555nfd8pgofd8237.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.todoapp",
+            "certificate_hash": "d9c71c6c99cde2c74e0e12d34f6b84dd9d7d97aa"
+          }
+        },
+        {
+          "client_id": "113217835546-2jp10reat18gb7sa6r0h1vn5rqfjkhm1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4MmrS2Gz6kw3TXeVNJz-bljlsNjI3ZTU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "113217835546-2jp10reat18gb7sa6r0h1vn5rqfjkhm1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "113217835546-0bs0c818d8h1sgchp3l2r97ko4dssb31.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.todoapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
