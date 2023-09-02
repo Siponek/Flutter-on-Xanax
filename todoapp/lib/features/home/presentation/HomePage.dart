@@ -6,6 +6,8 @@ class HomePage extends StatefulWidget {
     required this.title,
   });
 
+  static const String route = '/home';
+
   final String title;
 
   @override
