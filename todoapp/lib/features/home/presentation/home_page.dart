@@ -1,4 +1,10 @@
+import 'dart:developer';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:flutter/material.dart';
+import 'package:todoapp/features/home/domain/entities/note_entity.dart';
+import 'package:todoapp/features/home/presentation/cubits/notes_cubit/notes_cubit.dart';
+import 'package:todoapp/features/home/presentation/cubits/notes_cubit/notes_state.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -15,39 +21,89 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  int? openedIndex;
+  void _newNoteOnPressed() {}
 
   @override
   Widget build(BuildContext context) {
-    const text = Text('Siemanko!');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            text,
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+      body: BlocProvider(
+        create: (context) => NotesCubit(),
+        child: BlocBuilder<NotesCubit, NotesState>(
+          builder: (context, state) {
+            return state.when(
+              loading: () => const CircularProgressIndicator(),
+              failure: (failureMessage) => Text(failureMessage),
+              loaded: (notes) {
+                return ListView.builder(
+                  itemCount: notes.length,
+                  itemBuilder: (context, index) =>
+                      NoteCardList(note: notes[index]),
+                );
+              },
+            );
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: _newNoteOnPressed,
+        tooltip: 'New Note',
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
+    );
+  }
+}
+
+class NoteCardList extends StatelessWidget {
+  const NoteCardList({
+    super.key,
+    required this.note,
+  });
+
+  final NoteEntity note;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          flex: 2,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 8),
+              Text(note.title),
+              const SizedBox(height: 8),
+              Text(note.description),
+              const SizedBox(height: 8),
+            ],
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: FittedBox(
+            fit: BoxFit.cover,
+            child: ShaderMask(
+              shaderCallback: (Rect bounds) {
+                return const LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [Colors.transparent, Colors.black],
+                ).createShader(bounds);
+              },
+              blendMode: BlendMode.dstIn,
+              child: Image.network(
+                note.imageUrl,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
