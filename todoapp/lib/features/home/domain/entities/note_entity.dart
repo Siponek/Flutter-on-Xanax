@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import 'location_entity.dart';
+
 class NoteEntity extends Equatable {
   const NoteEntity({
     required this.id,
@@ -19,20 +21,27 @@ class NoteEntity extends Equatable {
 
   @override
   List<Object?> get props => throw UnimplementedError();
-}
 
-class LocationEntity extends Equatable {
-  const LocationEntity({
-    required this.longtitute,
-    required this.latitute,
-  });
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'imageUrl': imageUrl,
+      'location': location.toJson(),
+      'date': date.toIso8601String(),
+    };
+  }
 
-  final double longtitute;
-  final double latitute;
-
-  @override
-  List<Object?> get props => [
-        longtitute,
-        latitute,
-      ];
+  static NoteEntity fromJson(Map<String, dynamic> json) {
+    return NoteEntity(
+      id: json['id'] as String,
+      title: json['title'] as String,
+      description: json['description'] as String,
+      imageUrl: json['imageUrl'] as String,
+      location:
+          LocationEntity.fromJson(json['location'] as Map<String, dynamic>),
+      date: DateTime.parse(json['date'] as String),
+    );
+  }
 }
