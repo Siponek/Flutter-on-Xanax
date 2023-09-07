@@ -1,39 +1,35 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/features/home/domain/entities/note_entity.dart';
 import 'package:todoapp/features/home/presentation/cubits/notes_cubit/notes_state.dart';
-
-import '../../../domain/entities/location_entity.dart';
+import 'package:todoapp/services/repository_firestore.dart';
 
 class NotesCubit extends Cubit<NotesState> {
-  NotesCubit() : super(const NotesState.loading()) {
+  NotesCubit(this.repositoryFirestore) : super(const NotesState.loading()) {
+    streamSubscription = repositoryFirestore.notesStream.listen((event) {
+      log('Stream has a new event');
+      final List<NoteEntity> notes = event.docs
+          .map((json) => NoteEntity.fromJson(json.data()))
+          .toList(growable: false);
+      emit(NotesState.loaded(notes));
+    });
+
     _loadNotes();
   }
 
+  late final StreamSubscription streamSubscription;
+  final RepositoryFirestore repositoryFirestore;
+
   Future<void> _loadNotes() async {
     emit(const NotesState.loading());
-
-    final List<NoteEntity> mockNotes = [
-      NoteEntity(
-        id: 'id',
-        title: 'title',
-        description: 'description',
-        imageUrl:
-            'https://wykop.pl/cdn/c3201142/comment_1640433665JmpFARanZ2LxydpRWria0N,w400.jpg',
-        location: const LocationEntity(longtitute: 2, latitute: 3),
-        date: DateTime.now(),
-      ),
-      NoteEntity(
-        id: 'id',
-        title: 'title3',
-        description: 'description',
-        imageUrl:
-            'https://wykop.pl/cdn/c3201142/comment_1640433665JmpFARanZ2LxydpRWria0N,w400.jpg',
-        location: const LocationEntity(longtitute: 2, latitute: 3),
-        date: DateTime.now(),
-      ),
-    ];
-
     await Future.delayed(const Duration(seconds: 5));
-    emit(NotesState.loaded(mockNotes));
+  }
+
+  @override
+  Future<void> close() {
+    streamSubscription.cancel();
+    return super.close();
   }
 }

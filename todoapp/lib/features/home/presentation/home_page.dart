@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:todoapp/features/home/domain/entities/location_entity.dart';
 import 'package:todoapp/features/home/domain/entities/note_entity.dart';
+import 'package:todoapp/features/home/presentation/cubits/add_note_cubit/add_note_cubit.dart';
 import 'package:todoapp/features/home/presentation/cubits/notes_cubit/notes_cubit.dart';
 import 'package:todoapp/features/home/presentation/cubits/notes_cubit/notes_state.dart';
 import 'package:todoapp/services/repository_firestore.dart';
@@ -44,7 +45,7 @@ class _HomePageState extends State<HomePage> {
         title: Text(widget.title),
       ),
       body: BlocProvider(
-        create: (context) => NotesCubit(),
+        create: (context) => NotesCubit(context.read<RepositoryFirestore>()),
         child: BlocBuilder<NotesCubit, NotesState>(
           builder: (context, state) {
             return state.when(
@@ -61,10 +62,13 @@ class _HomePageState extends State<HomePage> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _newNoteOnPressed,
-        tooltip: 'New Note',
-        child: const Icon(Icons.add),
+      floatingActionButton: BlocProvider<AddNoteCubit>(
+        create: (context) => AddNoteCubit(context.read<RepositoryFirestore>()),
+        child: FloatingActionButton(
+          onPressed: _newNoteOnPressed,
+          tooltip: 'New Note',
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }
@@ -95,26 +99,26 @@ class NoteCardList extends StatelessWidget {
             ],
           ),
         ),
-        Expanded(
-          flex: 1,
-          child: FittedBox(
-            fit: BoxFit.cover,
-            child: ShaderMask(
-              shaderCallback: (Rect bounds) {
-                return const LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [Colors.transparent, Colors.black],
-                ).createShader(bounds);
-              },
-              blendMode: BlendMode.dstIn,
-              child: Image.network(
-                note.imageUrl,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ),
+        //   Expanded(
+        //     flex: 1,
+        //     child: FittedBox(
+        //       fit: BoxFit.cover,
+        //       child: ShaderMask(
+        //         shaderCallback: (Rect bounds) {
+        //           return const LinearGradient(
+        //             begin: Alignment.centerLeft,
+        //             end: Alignment.centerRight,
+        //             colors: [Colors.transparent, Colors.black],
+        //           ).createShader(bounds);
+        //         },
+        //         blendMode: BlendMode.dstIn,
+        //         child: Image.network(
+        //           note.imageUrl,
+        //           fit: BoxFit.cover,
+        //         ),
+        //       ),
+        //     ),
+        //   ),
       ],
     );
   }

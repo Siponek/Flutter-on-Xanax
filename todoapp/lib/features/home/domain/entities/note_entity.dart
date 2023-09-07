@@ -20,7 +20,14 @@ class NoteEntity extends Equatable {
   final DateTime date;
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [
+        id,
+        title,
+        description,
+        imageUrl,
+        location,
+        date,
+      ];
 
   Map<String, dynamic> toJson() {
     return {
