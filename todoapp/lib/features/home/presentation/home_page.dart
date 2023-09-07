@@ -1,10 +1,12 @@
-import 'dart:developer';
+// import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter/material.dart';
+import 'package:todoapp/features/home/domain/entities/location_entity.dart';
 import 'package:todoapp/features/home/domain/entities/note_entity.dart';
 import 'package:todoapp/features/home/presentation/cubits/notes_cubit/notes_cubit.dart';
 import 'package:todoapp/features/home/presentation/cubits/notes_cubit/notes_state.dart';
+import 'package:todoapp/services/repository_firestore.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -21,8 +23,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int? openedIndex;
-  void _newNoteOnPressed() {}
+  void _newNoteOnPressed() {
+    context.read<RepositoryFirestore>().addNote(
+          NoteEntity(
+            id: 'id',
+            title: 'title',
+            description: 'description',
+            imageUrl: 'imageUrl',
+            location: const LocationEntity(longtitute: 2, latitute: 3),
+            date: DateTime.now(),
+          ),
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
