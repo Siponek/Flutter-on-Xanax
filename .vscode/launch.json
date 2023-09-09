@@ -8,7 +8,7 @@
             "name": "master",
             "type": "dart",
             "request": "launch",
-            "program": "lib/main.dart",
+            "program": "todoapp/lib/main.dart",
             "args": []
         },
     ]

@@ -7,17 +7,17 @@ class NoteEntity extends Equatable {
     required this.id,
     required this.title,
     required this.description,
-    required this.imageUrl,
-    required this.location,
-    required this.date,
+    this.imageUrl,
+    // required this.location,
+    // required this.date,
   });
 
   final String id;
   final String title;
   final String description;
-  final String imageUrl;
-  final LocationEntity location;
-  final DateTime date;
+  final String? imageUrl;
+  // final LocationEntity location;
+  // final DateTime date;
 
   @override
   List<Object?> get props => [
@@ -25,8 +25,8 @@ class NoteEntity extends Equatable {
         title,
         description,
         imageUrl,
-        location,
-        date,
+        // location,
+        // date,
       ];
 
   Map<String, dynamic> toJson() {
@@ -35,8 +35,8 @@ class NoteEntity extends Equatable {
       'title': title,
       'description': description,
       'imageUrl': imageUrl,
-      'location': location.toJson(),
-      'date': date.toIso8601String(),
+      // 'location': location.toJson(),
+      // 'date': date.toIso8601String(),
     };
   }
 
@@ -45,10 +45,10 @@ class NoteEntity extends Equatable {
       id: json['id'] as String,
       title: json['title'] as String,
       description: json['description'] as String,
-      imageUrl: json['imageUrl'] as String,
-      location:
-          LocationEntity.fromJson(json['location'] as Map<String, dynamic>),
-      date: DateTime.parse(json['date'] as String),
+      imageUrl: json['imageUrl'] as String?,
+      // location:
+      //     LocationEntity.fromJson(json['location'] as Map<String, dynamic>),
+      // date: DateTime.parse(json['date'] as String),
     );
   }
 }

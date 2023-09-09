@@ -11,7 +11,8 @@ class NotesCubit extends Cubit<NotesState> {
     streamSubscription = repositoryFirestore.notesStream.listen((event) {
       log('Stream has a new event');
       final List<NoteEntity> notes = event.docs
-          .map((json) => NoteEntity.fromJson(json.data()))
+          .map((json) =>
+              NoteEntity.fromJson(json.data()..addAll({'id': json.id})))
           .toList(growable: false);
       emit(NotesState.loaded(notes));
     });

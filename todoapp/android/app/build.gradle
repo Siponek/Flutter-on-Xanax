@@ -66,5 +66,6 @@ flutter {
 }
 
 dependencies {
+    // This might be a general bad practice, but I don't expect gradle to make mistakes. ALso I hate gradle.
     implementation 'com.android.support:multidex:latest.version'
 }

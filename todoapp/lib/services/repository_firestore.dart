@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'dart:developer'; // For using log
-
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:todoapp/features/home/domain/entities/note_entity.dart';
+import 'package:todoapp/features/home/domain/entities/note_input.dart';
 
 class RepositoryFirestore {
   static final FirebaseFirestore db = FirebaseFirestore.instance;
@@ -51,9 +54,17 @@ class RepositoryFirestore {
     );
   }
 
-  Future<bool> addNote(NoteEntity note) async {
+  Future<bool> addNote(NoteInput noteInput) async {
     try {
-      final result = await db.collection(notesKey).add(note.toJson());
+      // TODO create a separate cubit for uploading images to display an error.
+      String? imageUrl;
+      if (noteInput.pathToImage != null) {
+        imageUrl = await uploadImageToFirebase(noteInput.pathToImage!);
+      }
+
+      final result = await db
+          .collection(notesKey)
+          .add(noteInput.toFireStoreJson(imageUrl: imageUrl));
       log('DocumentSnapshot added with ID: ${result.id}');
       return true;
     } catch (e, stackTrace) {
@@ -64,17 +75,48 @@ class RepositoryFirestore {
     }
   }
 
-  // return db.collection(notesKey).add(note.toJson()).then(
-  //   (DocumentReference doc) {
-  //     log('DocumentSnapshot added with ID: ${doc.id}');
-  //     return true;
-  //   },
-  // ).catchError(
-  //   (error) {
-  //     log('Error adding document: $error', name: "addNote");
-  //     return false;
-  //   },
-  // );
+  void saveImageUrlToFirestore(String imageUrl, String documentId) {
+    FirebaseFirestore.instance
+        .collection('your_collection_name')
+        .doc(documentId)
+        .update({"image_url": imageUrl});
+  }
+
+  Future<String> uploadImageToFirebase(String pathToFile) async {
+    const String folder = 'images';
+
+    String imageId = DateTime.now().millisecondsSinceEpoch.toString();
+    Reference ref;
+    try {
+      // Create a reference to the file location
+      ref = FirebaseStorage.instance.ref().child("$folder/$imageId.jpg");
+      UploadTask uploadTask = ref.putFile(File(pathToFile));
+      await ref.putFile(File(pathToFile));
+      await uploadTask.catchError((e) {
+        log("uploadImageToFirebase catchError: ${e.toString()}");
+        throw e;
+      });
+      TaskSnapshot taskSnapshot = await uploadTask
+          .whenComplete(() => log("uploadImageToFirebase Success"));
+    } catch (e) {
+      log("uploadImageToFirebase Instance: ${e.toString()}",
+          stackTrace: StackTrace.fromString(e.toString()));
+      return "";
+    }
+    // Upload the file
+    // log("imageFile.path: ${imageFile.path}");
+    try {
+      // TODO blob
+      // await ref.putBlob(imageFile.)
+      // Retrieve the download URL
+      String downloadUrl = await ref.getDownloadURL();
+
+      return downloadUrl;
+    } catch (e) {
+      log("Error while retrieving image URL at uploadImageToFirebase(): ${e.toString()}");
+      return "";
+    }
+  }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> get notesStream =>
       _notesController.stream;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todoapp/features/home/presentation/home_page.dart';
+import 'package:todoapp/features/home/presentation/pages/add_note_page/add_note_page.dart';
+import 'package:todoapp/features/home/presentation/pages/home_page/home_page.dart';
 import 'package:todoapp/features/login/data/repositories/authorization_repository.dart';
 import 'package:todoapp/features/login/presentation/pages/login_page/login_page.dart';
 import 'package:todoapp/services/repository_firestore.dart';
@@ -31,6 +32,9 @@ class MyApp extends StatelessWidget {
           HomePage.route: (context) =>
               const HomePage(title: 'Siemanko, to /home!'),
           LoginPage.route: (context) => const LoginPage(),
+          AddNotePage.route: (context) => const AddNotePage(
+                title: "Adding new note",
+              ),
         },
       ),
     );
