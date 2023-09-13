@@ -1,11 +1,12 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_webservice/places.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:todoapp/features/home/presentation/cubits/add_note_cubit/add_note_cubit.dart';
 import 'package:todoapp/features/home/presentation/cubits/add_note_cubit/add_note_state.dart';
 import 'package:todoapp/features/home/presentation/pages/add_note_page/widgets/bottom_sheet_choose_image.dart';
+import 'package:todoapp/features/home/presentation/pages/add_note_page/widgets/find_location_bottom_sheet/find_location_bottom_sheet.dart';
 
 import 'package:todoapp/services/repository_firestore.dart';
 
@@ -25,7 +26,8 @@ class AddNotePage extends StatefulWidget {
 }
 
 class _AddNotePageState extends State<AddNotePage> {
-  final TextEditingController titleController = TextEditingController();
+  final TextEditingController titleController =
+      TextEditingController(text: "title-${DateTime.now().toIso8601String()}");
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -33,13 +35,7 @@ class _AddNotePageState extends State<AddNotePage> {
       create: (context) => AddNoteCubit(context.read<RepositoryFirestore>()),
       child: Builder(builder: (context) {
         return BlocListener<AddNoteCubit, AddNoteState>(
-          listener: (context, state) {
-            // state.whenOrNull(
-            //   failure: (failureMessage, noteInput) {
-            //     titleController.
-            //   },
-            // );
-          },
+          listener: (context, state) {},
           child: Scaffold(
             appBar: AppBar(title: const Text('Add Note Page')),
             floatingActionButton: AddNoteFloatingButton(formKey: _formKey),
@@ -50,6 +46,7 @@ class _AddNotePageState extends State<AddNotePage> {
                   TextFormField(
                     controller: titleController,
                     decoration: const InputDecoration(labelText: 'Title'),
+                    // insert a default value
                     onChanged: (value) =>
                         context.read<AddNoteCubit>().titleChanged(value),
                     validator: (value) {
@@ -61,6 +58,7 @@ class _AddNotePageState extends State<AddNotePage> {
                   ),
                   TextFormField(
                     decoration: const InputDecoration(labelText: 'Note text'),
+                    initialValue: "Your note text",
                     onChanged: (value) =>
                         context.read<AddNoteCubit>().descriptionChanged(value),
                     validator: (value) {
@@ -81,6 +79,19 @@ class _AddNotePageState extends State<AddNotePage> {
                       }
                     },
                     child: const Text('Add photo'),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      final PlaceDetails placeDetails =
+                          await showModalBottomSheet(
+                        context: context,
+                        builder: (context) => const FindLocationBottomSheet(),
+                      );
+                      context
+                          .read<AddNoteCubit>()
+                          .locationChanged(placeDetails);
+                    },
+                    child: const Text('Add location'),
                   ),
                 ],
               ),

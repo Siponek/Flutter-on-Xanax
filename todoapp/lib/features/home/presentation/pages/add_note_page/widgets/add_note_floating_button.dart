@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/features/home/presentation/cubits/add_note_cubit/add_note_cubit.dart';
@@ -26,14 +25,8 @@ class AddNoteFloatingButton extends StatelessWidget {
           orElse: () => FloatingActionButton.extended(
             onPressed: () {
               if (formKey.currentState!.validate()) {
-                log('Note added');
+                log('Note Button pressed', name: 'add_note_floating_button');
                 context.read<AddNoteCubit>().addNote();
-                // log(context
-                //     .read<AddNoteCubit>()
-                //     .state
-                //     .noteInput
-                //     .toJson()
-                //     .toString());
               }
             },
             icon: const Icon(Icons.add),

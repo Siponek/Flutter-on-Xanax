@@ -3,10 +3,8 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:todoapp/services/repository_firestore.dart';
 
 abstract class BottomSheetChooseImage {
   static Future<XFile?> show(
@@ -22,13 +20,13 @@ abstract class BottomSheetChooseImage {
             TextButton(
                 onPressed: () async {
                   file = await choosePictureFromCamera(context);
-                  Navigator.of(context).pop();
+                  if (context.mounted) Navigator.of(context).pop();
                 },
                 child: const Text('Camera')),
             TextButton(
                 onPressed: () async {
                   file = await choosePictureFromGallery(context);
-                  Navigator.of(context).pop();
+                  if (context.mounted) Navigator.of(context).pop();
                 },
                 child: const Text('Gallery')),
           ],
