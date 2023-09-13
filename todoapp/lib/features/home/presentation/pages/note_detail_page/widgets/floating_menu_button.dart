@@ -25,6 +25,7 @@ class _FloatingMenuButtonState extends State<FloatingMenuButton> {
           child: Visibility(
             visible: isMenuOpen,
             child: FloatingActionButton(
+              heroTag: null,
               mini: true,
               onPressed: () {
                 log("Pressed edit button", name: 'FloatingMenuButton');
@@ -42,6 +43,7 @@ class _FloatingMenuButtonState extends State<FloatingMenuButton> {
           child: Visibility(
             visible: isMenuOpen,
             child: FloatingActionButton(
+              heroTag: null,
               mini: true,
               onPressed: () {
                 // Delete action
@@ -59,6 +61,7 @@ class _FloatingMenuButtonState extends State<FloatingMenuButton> {
           child: Visibility(
             visible: isMenuOpen,
             child: FloatingActionButton(
+              heroTag: null,
               mini: true,
               onPressed: () {
                 // Send action
@@ -74,6 +77,7 @@ class _FloatingMenuButtonState extends State<FloatingMenuButton> {
           bottom: 0,
           curve: Curves.bounceInOut,
           child: FloatingActionButton(
+            heroTag: null,
             onPressed: () {
               log("Pressed exit menu button", name: 'FloatingMenuButton');
               setState(() {
