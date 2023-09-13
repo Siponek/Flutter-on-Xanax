@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todoapp/features/home/data/repositories/location_repository.dart';
 import 'package:todoapp/features/home/presentation/pages/add_note_page/add_note_page.dart';
 import 'package:todoapp/features/home/presentation/pages/home_page/home_page.dart';
 import 'package:todoapp/features/login/data/repositories/authorization_repository.dart';
 import 'package:todoapp/features/login/presentation/pages/login_page/login_page.dart';
+import 'package:todoapp/features/theme/data/repositories/theme_repository.dart';
+import 'package:todoapp/features/theme/presentation/theme_bloc.dart';
+import 'package:todoapp/features/theme/presentation/theme_state.dart';
 import 'package:todoapp/services/repository_firestore.dart';
 
 class MyApp extends StatelessWidget {
@@ -19,23 +23,40 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<RepositoryFirestore>(
           create: (context) => RepositoryFirestore(),
         ),
-      ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
+        RepositoryProvider<LocationRepository>(
+          create: (context) => LocationRepository(),
         ),
-        home: const HomePage(title: 'Temporary no user!'),
-        // home: const LoginPage(),
-        routes: {
-          HomePage.route: (context) =>
-              const HomePage(title: 'Siemanko, to /home!'),
-          LoginPage.route: (context) => const LoginPage(),
-          AddNotePage.route: (context) => const AddNotePage(
-                title: "Adding new note",
-              ),
-        },
+        RepositoryProvider<ThemeRepository>(
+            create: (context) => ThemeRepository())
+      ],
+      child: BlocProvider(
+        create: (context) => ThemeBloc(
+          themeRepository: context.read<ThemeRepository>(),
+        ),
+        child: BlocBuilder<ThemeBloc, bool>(
+          builder: (context, isDarkMode) {
+            return MaterialApp(
+              title: 'Flutter Demo',
+              theme: ThemeState(ThemeData(
+                colorScheme: isDarkMode
+                    ? const ColorScheme.dark()
+                    : const ColorScheme.light(),
+                useMaterial3: true,
+              )).themeData,
+              //? Change so that the user is logged in
+              home: const HomePage(title: 'Temporary no user!'),
+              // home: const LoginPage(),
+              routes: {
+                HomePage.route: (context) =>
+                    const HomePage(title: 'Welcome, to /home!'),
+                LoginPage.route: (context) => const LoginPage(),
+                AddNotePage.route: (context) => const AddNotePage(
+                      title: "Adding new note",
+                    ),
+              },
+            );
+          },
+        ),
       ),
     );
   }
