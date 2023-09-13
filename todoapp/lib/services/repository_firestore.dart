@@ -3,8 +3,6 @@ import 'dart:developer'; // For using log
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:todoapp/features/home/domain/entities/note_entity.dart';
 import 'package:todoapp/features/home/domain/entities/note_input.dart';
 
 class RepositoryFirestore {
@@ -64,13 +62,13 @@ class RepositoryFirestore {
 
       final result = await db
           .collection(notesKey)
-          .add(noteInput.toFireStoreJson(imageUrl: imageUrl));
-      log('DocumentSnapshot added with ID: ${result.id}');
+          .add(noteInput.toFireStoreJsons(imageUrl: imageUrl));
+      log('DocumentSnapshot added with ID: ${result.id}', name: "addNote");
       return true;
     } catch (e, stackTrace) {
       // Catch the error as 'e'
       log("Error adding document",
-          name: "addNote", error: e, stackTrace: stackTrace);
+          name: "repository_firebase", error: e, stackTrace: stackTrace);
       return false;
     }
   }
@@ -96,11 +94,12 @@ class RepositoryFirestore {
         log("uploadImageToFirebase catchError: ${e.toString()}");
         throw e;
       });
+      // ignore: unused_local_variable
       TaskSnapshot taskSnapshot = await uploadTask
           .whenComplete(() => log("uploadImageToFirebase Success"));
-    } catch (e) {
+    } catch (e, stackTrace) {
       log("uploadImageToFirebase Instance: ${e.toString()}",
-          stackTrace: StackTrace.fromString(e.toString()));
+          error: e, stackTrace: stackTrace);
       return "";
     }
     // Upload the file

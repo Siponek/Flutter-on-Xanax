@@ -1,14 +1,16 @@
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
-import 'location_entity.dart';
 
+/// Class for the note entity that is displayed in the UI list
 class NoteEntity extends Equatable {
   const NoteEntity({
     required this.id,
     required this.title,
     required this.description,
     this.imageUrl,
-    // required this.location,
+    required this.location,
     // required this.date,
   });
 
@@ -16,7 +18,8 @@ class NoteEntity extends Equatable {
   final String title;
   final String description;
   final String? imageUrl;
-  // final LocationEntity location;
+  final GeoPoint? location;
+  // final PlaceDetails location;
   // final DateTime date;
 
   @override
@@ -25,29 +28,29 @@ class NoteEntity extends Equatable {
         title,
         description,
         imageUrl,
-        // location,
+        location,
         // date,
       ];
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-      'description': description,
-      'imageUrl': imageUrl,
-      // 'location': location.toJson(),
-      // 'date': date.toIso8601String(),
-    };
-  }
+  // Map<String, dynamic> toJson() {
+  //   return {
+  //     'id': id,
+  //     'title': title,
+  //     'description': description,
+  //     'imageUrl': imageUrl,
+  //     'location': location.toJson(),
+  //     // 'date': date.toIso8601String(),
+  //   };
+  // }
 
-  static NoteEntity fromJson(Map<String, dynamic> json) {
+  static NoteEntity noteEntityFromJson(Map<String, dynamic> json) {
     return NoteEntity(
       id: json['id'] as String,
       title: json['title'] as String,
       description: json['description'] as String,
       imageUrl: json['imageUrl'] as String?,
-      // location:
-      //     LocationEntity.fromJson(json['location'] as Map<String, dynamic>),
+      location: json['location'] as GeoPoint?,
+      // : PlaceDetails?.fromJson(json['location'] as Map<String, dynamic>),
       // date: DateTime.parse(json['date'] as String),
     );
   }

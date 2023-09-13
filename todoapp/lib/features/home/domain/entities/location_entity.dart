@@ -14,12 +14,12 @@ class LocationEntity extends Equatable {
         latitute,
       ];
 
-  Map<String, dynamic> toJson() {
-    return {
-      'longtitute': longtitute,
-      'latitute': latitute,
-    };
-  }
+  // Map<String, dynamic> toJson() {
+  //   return {
+  //     'longtitute': longtitute,
+  //     'latitute': latitute,
+  //   };
+  // }
 
   static LocationEntity fromJson(Map<String, dynamic> json) {
     return LocationEntity(
