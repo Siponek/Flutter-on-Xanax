@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -26,8 +25,7 @@ class AddNotePage extends StatefulWidget {
 }
 
 class _AddNotePageState extends State<AddNotePage> {
-  final TextEditingController titleController =
-      TextEditingController(text: "title-${DateTime.now().toIso8601String()}");
+  final TextEditingController titleController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -58,7 +56,6 @@ class _AddNotePageState extends State<AddNotePage> {
                   ),
                   TextFormField(
                     decoration: const InputDecoration(labelText: 'Note text'),
-                    initialValue: "Your note text",
                     onChanged: (value) =>
                         context.read<AddNoteCubit>().descriptionChanged(value),
                     validator: (value) {

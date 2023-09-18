@@ -44,8 +44,8 @@ class MyApp extends StatelessWidget {
                 useMaterial3: true,
               )).themeData,
               //? Change so that the user is logged in
-              home: const HomePage(title: 'Temporary no user!'),
-              // home: const LoginPage(),
+              // home: const HomePage(title: 'Temporary no user!'),
+              home: const LoginPage(),
               routes: {
                 HomePage.route: (context) =>
                     const HomePage(title: 'Welcome, to /home!'),

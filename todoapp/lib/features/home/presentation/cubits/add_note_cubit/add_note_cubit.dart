@@ -14,9 +14,12 @@ class AddNoteCubit extends Cubit<AddNoteState> {
   final RepositoryFirestore repositoryFirestore;
 
   Future<void> addNote() async {
+    log("Adding note!", name: "add_note_cubit");
     emit(AddNoteState.saving(state.noteInput));
+    log("Note status: saving! ${state.noteInput}", name: "add_note_cubit");
     // Checking if all of the fields are filled
     if (!state.noteInput.isReadyToAdd()) {
+      log("Note adding fail! ${state.noteInput}", name: "add_note_cubit");
       emit(AddNoteState.failure(
         failureMessage: "Please fill in all fields!",
         noteInput: state.noteInput,
