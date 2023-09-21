@@ -73,6 +73,19 @@ class RepositoryFirestore {
     }
   }
 
+  Future<bool> deleteNote(String noteId) async {
+    try {
+      await db.collection(notesKey).doc(noteId).delete();
+      log('DocumentSnapshot deleted with ID: $noteId', name: "deleteNote");
+      return true;
+    } catch (e, stackTrace) {
+      // Catch the error as 'e'
+      log("Error deleting document",
+          name: "repository_firebase", error: e, stackTrace: stackTrace);
+      return false;
+    }
+  }
+
   void saveImageUrlToFirestore(String imageUrl, String documentId) {
     FirebaseFirestore.instance
         .collection('your_collection_name')
