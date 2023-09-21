@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todoapp/features/home/presentation/pages/home_page/home_page.dart';
 import 'package:todoapp/features/login/presentation/cubits/login_cubit.dart';
 import 'package:todoapp/features/login/presentation/cubits/login_state.dart';
 
@@ -23,7 +24,8 @@ class LoginButton extends StatelessWidget {
             log("${user.displayName} logged in", name: 'LoginPage');
             ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Login successful')));
-            Navigator.pushReplacementNamed(context, '/home');
+            Navigator.pushReplacementNamed(
+                context, HomePage.route); // TODO chyba do wywalenia
           },
           failure: (message) => ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Login Failed')),
@@ -35,7 +37,7 @@ class LoginButton extends StatelessWidget {
           loading: () => const CircularProgressIndicator(),
           orElse: () => ElevatedButton(
             onPressed: () => _onPressed(context),
-            child: const Text(_loginButtonText),
+            child: const Text(_loginButtonText, style: TextStyle(fontSize: 22)),
           ),
         );
       },
