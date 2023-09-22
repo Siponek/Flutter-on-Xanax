@@ -1,7 +1,27 @@
-# Report <br> Development of a To-Do Application in Flutter with Firestore Integration
+# Report: <br> Development of a To-Do Application in Flutter with Firestore Integration
+<div class="codename">Codename: Meta-Xanax</div>
 
 Author: Szymon Zinkowicz 5181814  
 Date: 2023-09-22  
+
+[dart_url]: https://dart.dev/
+[flutter_url]: https://flutter.dev/
+[firestore_url]: https://firebase.google.com/docs/firestore
+[google_maps_url]: https://developers.google.com/maps/documentation
+[google_sign_in_url]: https://pub.dev/packages/google_sign_in
+[flutter_bloc_url]: https://pub.dev/packages/flutter_bloc
+[freezed_url]: https://pub.dev/packages/freezed
+[cloud_firestore_url]: https://pub.dev/packages/cloud_firestore
+[firebase_storage_url]: https://pub.dev/packages/firebase_storage
+[image_picker_url]: https://pub.dev/packages/image_picker
+[google_maps_flutter_url]: https://pub.dev/packages/google_maps_flutter
+[url_launcher_url]: https://pub.dev/packages/url_launcher
+[shimmer_url]: https://pub.dev/packages/shimmer
+[flutter_dotenv_url]: https://pub.dev/packages/flutter_dotenv
+
+
+
+
 
 ## Abstract
 
@@ -15,12 +35,12 @@ The application serves as a versatile to-do list management tool allowing users 
 
 ### Technologies Used
 
-- Dart
-- Flutter
-- Firestore
-- Google OAuth
-- Google Maps (For geolocation feature)
-- BloC Pattern
+- [Dart][dart_url]
+- [Flutter][flutter_url]
+- [Firestore][firestore_url]
+- [Google OAuth][google_sign_in_url]
+- [Google Maps][google_maps_url] (For geolocation feature)
+- [BloC Pattern][flutter_bloc_url]
 
 ## System Architecture
 
@@ -53,7 +73,7 @@ The pubspec.yaml file lists the dependencies and dev_dependencies required for t
 
 - flutter_bloc and freezed: For state management and immutable classes.
 - google_sign_in and firebase_core: For user authentication and Firebase integration.
-- cloud_firestore and firebase_storage: For data storage and retrieval from Firestore and Firebase Storage.
+- Flutterfire, cloud_firestore and firebase_storage: For data storage and retrieval from Firestore and Firebase Storage.
 - image_picker, google_maps_flutter, url_launcher: For image picking, Google Maps integration, and URL launching.
 - shimmer: For loading animations.
 - flutter_dotenv: To manage environment variables, like API keys, securely.
@@ -83,7 +103,7 @@ The AuthorizationRepository handles user authentication using Google's oAuth sys
 - Utilized for state management to efficiently handle the state of UI components and ensure a clean, maintainable codebase.
 
 ### Firestore Integration
-
+- Flutterfire library allows for seamless integration with Firestore, enabling efficient data storage and retrieval.
 - Serves as the database to store notes, user information, and other relevant data securely and efficiently.
 
 ### UI Components
@@ -123,9 +143,9 @@ The AuthorizationRepository handles user authentication using Google's oAuth sys
   - __Learning Outcome__:
         The multi-faceted environment setup involved the integration of FVM, Android Studio, VS Code, among other tools. Although the setup phase was intricate and demanded meticulous attention, it offered insights into the synchronization of various development tools and technologies, contributing to a smoother, more cohesive development experience.
 
-Reflective Conclusion:
+__Reflective Conclusion__:
 
-    These challenges shaped the learning trajectory, each presenting unique obstacles and learning opportunities. The accumulation of knowledge in diverse domains facilitated the synthesis of high-quality, scalable, and efficient solutions. It was not merely about overcoming obstacles but about acquiring and consolidating skills, knowledge, and best practices in modern application development. This journey reflected the continuous learning ethos inherent in software development, emphasizing the importance of adaptability, continuous improvement, and mastery of emerging technologies and methodologies.
+These challenges shaped the learning trajectory, each presenting unique obstacles and learning opportunities. The accumulation of knowledge in diverse domains facilitated the synthesis of high-quality, scalable, and efficient solutions. It was not merely about overcoming obstacles but about acquiring and consolidating skills, knowledge, and best practices in modern application development. This journey reflected the continuous learning ethos inherent in software development, emphasizing the importance of adaptability, continuous improvement, and mastery of emerging technologies and methodologies.
   
 ## Conclusion
 
