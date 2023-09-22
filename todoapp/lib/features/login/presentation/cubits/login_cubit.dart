@@ -4,7 +4,7 @@ import 'package:todoapp/features/login/domain/entities/user_entity.dart';
 import 'package:todoapp/features/login/presentation/cubits/login_state.dart';
 
 // Global variable for the user state
-UserEntity? user;
+UserEntity? userCubitData;
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit({
@@ -21,7 +21,7 @@ class LoginCubit extends Cubit<LoginState> {
     final result = await authorizatonRepository.loginWithGoogle();
 
     if (result != null) {
-      user = result;
+      userCubitData = result;
       emit(LoginState.success(result));
     } else {
       emit(const LoginState.failure('Login failed'));

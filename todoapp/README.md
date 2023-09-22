@@ -1,16 +1,17 @@
+[fvm_url]:<https://fvm.app/docs/getting_started/installation>
+[android_studio_url]:<https://developer.android.com/studio>
 # todoapp
 
-A new Flutter project.
+A TODO Flutter project.
 
 ## Getting Started
 
 This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+Requirements:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- fvm [installation][fvm_url]
+- android studio [installation][android_studio_url] or xcode (for ios) or both
+    - android studio is required for android development
+    - sdkmanager is required for android development
+    - device emulator is required for android development

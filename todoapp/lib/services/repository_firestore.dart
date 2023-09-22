@@ -57,8 +57,24 @@ class RepositoryFirestore {
       // TODO create a separate cubit for uploading images to display an error.
       String? imageUrl;
       if (noteInput.pathToImage != null) {
+        // TODO check if upload was successful
         imageUrl = await uploadImageToFirebase(noteInput.pathToImage!);
+        if (imageUrl == "") {
+          log("Error uploading image to Firebase", name: "addNote");
+          return false;
+        }
       }
+      // TODO make the saves to Firestore transactional
+      // TODO check if the note already exists
+      // TODO make the save to Firestore individual for each user
+      //  final documentReference = db.collection(notesKey).doc(specificId);
+      // final snapshot = await documentReference.get();
+      // if(snapshot.exists) {
+      //   log('Document with ID: $specificId already exists', name: "addNote");
+      //   return false;
+      // }
+      // await documentReference.set(noteInput.toFireStoreJsons(imageUrl: imageUrl));
+      // log('DocumentSnapshot added with ID: $specificId', name: "addNote");
 
       final result = await db
           .collection(notesKey)

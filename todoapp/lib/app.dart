@@ -10,6 +10,9 @@ import 'package:todoapp/features/theme/presentation/theme_bloc.dart';
 import 'package:todoapp/features/theme/presentation/theme_state.dart';
 import 'package:todoapp/services/repository_firestore.dart';
 
+final AuthorizationRepository authorizationRepository =
+    AuthorizationRepository();
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -17,9 +20,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider<AuthorizationRepository>(
-          create: (context) => AuthorizationRepository(),
-        ),
+        // RepositoryProvider<AuthorizationRepository>(
+        //   create: (context) => AuthorizationRepository(),
+        // ),
         RepositoryProvider<RepositoryFirestore>(
           create: (context) => RepositoryFirestore(),
         ),
@@ -45,10 +48,21 @@ class MyApp extends StatelessWidget {
               )).themeData,
               //? Change so that the user is logged in
               // home: const HomePage(title: 'Temporary no user!'),
-              home: const LoginPage(),
+              home: Builder(builder: (context) {
+                // authorizationRepository.authStatusStream.listen((status) {
+                //   status.when(
+                //     unauthorized: () => Navigator.pushReplacementNamed(
+                //         context, LoginPage.route),
+                //     authorized: (_) =>
+                //         Navigator.pushReplacementNamed(context, HomePage.route),
+                //   );
+                // });
+
+                return const LoginPage();
+              }),
+
               routes: {
-                HomePage.route: (context) =>
-                    const HomePage(title: 'Welcome, to /home!'),
+                HomePage.route: (context) => const HomePage(title: 'Welcome'),
                 LoginPage.route: (context) => const LoginPage(),
                 AddNotePage.route: (context) => const AddNotePage(
                       title: "Adding new note",
