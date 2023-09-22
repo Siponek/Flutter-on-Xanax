@@ -8,16 +8,18 @@ import 'package:todoapp/services/repository_firestore.dart';
 
 class NotesCubit extends Cubit<NotesState> {
   NotesCubit(this.repositoryFirestore) : super(const NotesState.loading()) {
-    streamSubscription = repositoryFirestore.notesStream.listen((event) {
+    streamSubscription = repositoryFirestore.notesStream.listen((event) async {
       log('Stream has a new event', name: 'notes_cubit');
       final List<NoteEntity> notes = event.docs
           .map((json) => NoteEntity.noteEntityFromJson(
               json.data()..addAll({'id': json.id})))
           .toList(growable: false);
+      // await Future.delayed(const Duration(seconds: 5));
+
       emit(NotesState.loaded(notes));
     });
 
-    _loadNotes();
+    // _loadNotes();
   }
 
   late final StreamSubscription streamSubscription;
