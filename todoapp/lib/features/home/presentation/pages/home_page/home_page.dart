@@ -1,11 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:todoapp/features/home/presentation/cubits/notes_cubit/notes_cubit.dart';
 import 'package:todoapp/features/home/presentation/cubits/notes_cubit/notes_state.dart';
 import 'package:todoapp/features/home/presentation/pages/home_page/widgets/floating_add_button.dart';
+import 'package:todoapp/features/login/presentation/cubits/login_cubit.dart';
 import 'package:todoapp/features/theme/presentation/theme_bloc.dart';
 import 'package:todoapp/services/repository_firestore.dart';
-
 import 'widgets/note_card_element.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,10 +14,8 @@ class HomePage extends StatefulWidget {
     super.key,
     required this.title,
   });
-
-  static const String route = '/home';
-
   final String title;
+  static const String route = '/home';
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -30,7 +29,9 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: backgroundColor ? Colors.black : Colors.white,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: userCubitData != null
+            ? Text('${widget.title} ${userCubitData?.displayName}')
+            : const Text('Test user'),
         actions: [
           IconButton(
             onPressed: () {
@@ -47,7 +48,18 @@ class _HomePageState extends State<HomePage> {
         child: BlocBuilder<NotesCubit, NotesState>(
           builder: (context, state) {
             return state.when(
-              loading: () => const CircularProgressIndicator(),
+              loading: () => ListView.builder(
+                itemCount: 30,
+                itemBuilder: (context, index) => Shimmer.fromColors(
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child: Container(
+                    width: 300,
+                    height: 60,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
               failure: (failureMessage) => Text(failureMessage),
               loaded: (notes) {
                 return Container(
