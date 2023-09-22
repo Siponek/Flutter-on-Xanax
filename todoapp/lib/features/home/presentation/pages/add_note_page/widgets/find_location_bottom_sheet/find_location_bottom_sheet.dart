@@ -10,18 +10,15 @@ class FindLocationBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.75,
-      child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        body: Column(
-          children: [
-            Text('Find location',
-                style: Theme.of(context).textTheme.headlineMedium),
-            const Divider(height: 1, thickness: 1),
-            const Expanded(child: _Body()),
-          ],
-        ),
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      body: Column(
+        children: [
+          Text('Find location',
+              style: Theme.of(context).textTheme.headlineMedium),
+          const Divider(height: 1, thickness: 1),
+          const Expanded(child: _Body()),
+        ],
       ),
     );
   }
