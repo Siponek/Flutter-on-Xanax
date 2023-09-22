@@ -39,6 +39,7 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
                 const SizedBox(height: 8),
               ],
             )),
-        floatingActionButton: const FloatingMenuButton());
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: FloatingMenuButton(note: widget.note));
   }
 }
